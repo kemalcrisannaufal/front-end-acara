@@ -2,16 +2,16 @@ import { ReactNode } from "react";
 import PageHead from "../../common/PageHead";
 
 interface Proptypes {
-  title?: string;
   children: ReactNode;
+  title?: string;
 }
 
 const AuthLayout = (props: Proptypes) => {
-  const { title, children } = props;
+  const { children, title } = props;
   return (
     <>
       <PageHead title={title} />
-      <section className="max-w-screen-3xl 3xl:container p-6">
+      <section className="p-6 max-w-screen-3xl 3xl:container">
         {children}
       </section>
     </>

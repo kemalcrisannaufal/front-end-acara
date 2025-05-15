@@ -1,5 +1,5 @@
 const endpoint = {
-  AUTH_REGISTER: "/auth/register",
+  AUTH: "/auth",
 };
 
 export default endpoint;

@@ -3,9 +3,9 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IRegister } from "@/src/types/Auth";
-import AuthServices from "@/src/services/auth";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import authServices from "@/src/services/auth.service";
 
 const registerSchema = yup.object().shape({
   fullname: yup.string().required("Please input your fullname"),
@@ -49,7 +49,7 @@ const useRegister = () => {
   });
 
   const registerService = async (payload: IRegister) => {
-    const result = await AuthServices.register(payload);
+    const result = await authServices.register(payload);
     return result;
   };
 
