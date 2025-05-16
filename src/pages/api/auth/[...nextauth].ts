@@ -26,8 +26,6 @@ export default NextAuth({
           password: string;
         };
 
-        console.log({ identifier, password });
-
         const result = await authServices.login({ identifier, password });
 
         const accessToken = result.data.data;
