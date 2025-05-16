@@ -1,11 +1,7 @@
 import { environment } from "@/src/config/environment";
+import { SessionExtended } from "@/src/types/Auth";
 import axios from "axios";
-import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
-
-export interface CustomSession extends Session {
-  accessToken?: string;
-}
 
 const headers = {
   "Content-type": "application/json",
@@ -19,10 +15,10 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   async (request) => {
-    // const session: CustomSession | null = await getSession();
-    // if (session && session.accessToken) {
-    //   request.headers.Authorization = `Bearer ${session.accessToken}`;
-    // }
+    const session: SessionExtended | null = await getSession();
+    if (session && session.accessToken) {
+      request.headers.Authorization = `Bearer ${session.accessToken}`;
+    }
     return request;
   },
   (error) => Promise.reject(error),
