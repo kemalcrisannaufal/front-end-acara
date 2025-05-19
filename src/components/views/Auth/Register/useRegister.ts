@@ -17,6 +17,18 @@ const registerSchema = yup.object().shape({
   password: yup
     .string()
     .min(6, "Password must be at least 6 characters")
+    .test(
+      "at-least-one-uppercase-letter",
+      "Contains at least one uppercase letter",
+      (value) => {
+        const regex = /(?=.*[A-Z])/;
+        return regex.test(value || "");
+      },
+    )
+    .test("at-least-one-number", "Contains at least one number", (value) => {
+      const regex = /(?=.*\d)/;
+      return regex.test(value || "");
+    })
     .required("Please input your password"),
   confirmPassword: yup
     .string()

@@ -28,7 +28,7 @@ const RegisterSuccess = () => {
         <p className="mb-5 font-semibold text-default-500 text-md">
           Check your email for account activation
         </p>
-        <Button variant="ghost" color="danger" onClick={() => router.push("/")}>
+        <Button variant="ghost" color="danger" onPress={() => router.push("/")}>
           Back to Home
         </Button>
       </div>
