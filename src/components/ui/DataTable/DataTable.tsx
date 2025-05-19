@@ -1,4 +1,4 @@
-import { LIMIT_LIST } from "@/src/constants/List.constants";
+import { LIMIT_LIST } from "@/src/constants/list.constants";
 import { cn } from "@/src/utils/cn";
 import {
   Button,
@@ -83,25 +83,31 @@ const DataTable = (props: Proptypes) => {
         <Select
           className="hidden w-full max-w-36 lg:block"
           onChange={onChangeLimit}
-          selectedKeys={limit}
+          selectedKeys={new Set([limit])}
           selectionMode="single"
           startContent={<p className="text-small">Show:</p>}
           size="md"
+          disallowEmptySelection
         >
           {LIMIT_LIST.map((item) => (
-            <SelectItem key={item.label as Key}>{item.value}</SelectItem>
+            <SelectItem key={item.value as Key} value={item.value}>
+              {item.label}
+            </SelectItem>
           ))}
         </Select>
 
-        <Pagination
-          color="danger"
-          isCompact
-          onChange={onChangePage}
-          page={currentPage}
-          showControls
-          size="md"
-          total={totalPages}
-        />
+        {totalPages > 1 && (
+          <Pagination
+            color="danger"
+            isCompact
+            onChange={onChangePage}
+            page={currentPage}
+            showControls
+            size="md"
+            total={totalPages}
+            loop
+          />
+        )}
       </div>
     );
   }, [limit, currentPage, totalPages, onChangePage, onChangeLimit]);

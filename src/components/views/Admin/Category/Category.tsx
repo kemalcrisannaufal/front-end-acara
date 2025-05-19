@@ -6,27 +6,46 @@ import { DropdownMenu } from "@nextui-org/react";
 import { DropdownTrigger } from "@nextui-org/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Key, ReactNode, useCallback } from "react";
+import { Key, ReactNode, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { COLUMNS_LIST_CATEGORY } from "./Category.constants";
-import { LIMIT_LIST } from "@/src/constants/List.constants";
+import useCategory from "./useCategory";
+import InputFile from "@/src/components/ui/InputFile";
 
 const Category = () => {
-  const { push } = useRouter();
+  const { push, isReady, query } = useRouter();
+  const {
+    setURL,
+    currentLimit,
+    dataCategory,
+    handleChangeLimit,
+    handleChangePage,
+    handleSearch,
+    handleClearSearch,
+    isLoadingCategory,
+    isRefetchingCategory,
+  } = useCategory();
+
+  useEffect(() => {
+    if (isReady) {
+      setURL();
+    }
+  }, [isReady]);
+
   const renderCell = useCallback(
     (category: Record<string, unknown>, columnKey: Key) => {
       const cellValue = category[columnKey as keyof typeof category];
 
       switch (columnKey) {
-        case "icon":
-          return (
-            <Image
-              src={`${cellValue}` as string}
-              alt="icon"
-              width={100}
-              height={1000}
-            />
-          );
+        // case "icon":
+        //   return (
+        //     <Image
+        //       src={`${cellValue}` as string}
+        //       alt="icon"
+        //       width={100}
+        //       height={1000}
+        //     />
+        //   );
 
         case "actions":
           return (
@@ -61,28 +80,25 @@ const Category = () => {
   );
   return (
     <section>
-      <DataTable
-        buttonTopContentLabel="Create Category"
-        columns={COLUMNS_LIST_CATEGORY}
-        currentPage={1}
-        data={[
-          {
-            _id: "123",
-            name: "category-1",
-            description: "description-1",
-            icon: "/images/general/logo.png",
-          },
-        ]}
-        emptyContent="Category not found"
-        limit={LIMIT_LIST[0].label}
-        onChangeLimit={() => {}}
-        onChangePage={() => {}}
-        onClearSearch={() => {}}
-        onClickButtonTopContent={() => {}}
-        onChangeSearch={() => {}}
-        renderCell={renderCell}
-        totalPages={5}
-      />
+      {Object.keys(query).length > 0 && (
+        <DataTable
+          buttonTopContentLabel="Create Category"
+          columns={COLUMNS_LIST_CATEGORY}
+          currentPage={Number(dataCategory?.pagination.current)}
+          data={dataCategory?.data || []}
+          emptyContent="Category not found"
+          isLoading={isLoadingCategory || isRefetchingCategory}
+          limit={String(currentLimit)}
+          onChangeLimit={handleChangeLimit}
+          onChangePage={(page: number) => handleChangePage(page)}
+          onClearSearch={handleClearSearch}
+          onClickButtonTopContent={() => {}}
+          onChangeSearch={handleSearch}
+          renderCell={renderCell}
+          totalPages={dataCategory?.pagination.totalPages}
+        />
+      )}
+      <InputFile name="da" isDropable />
     </section>
   );
 };
