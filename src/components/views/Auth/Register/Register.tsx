@@ -24,8 +24,8 @@ const Register = () => {
   } = useRegister();
 
   return (
-    <div className="flex lg:flex-row flex-col justify-center items-center gap-10 lg:gap-20 w-full">
-      <div className="flex flex-col justify-center items-center gap-10 w-full lg:w-1/3">
+    <div className="flex w-full flex-col items-center justify-center gap-10 lg:flex-row lg:gap-20">
+      <div className="flex w-full flex-col items-center justify-center gap-10 lg:w-1/3">
         <Image
           src={"/images/general/logo.svg"}
           alt="logo"
@@ -42,18 +42,14 @@ const Register = () => {
       </div>
       <Card className="w-full lg:w-max">
         <CardBody className="p-5 lg:p-8">
-          <h2 className="font-bold text-danger-500 text-xl">Create Account</h2>
+          <h2 className="text-xl font-bold text-danger-500">Create Account</h2>
           <p className="text-sm">
             Have an account?&nbsp;
             <Link href="/auth/login" className="font-semibold text-danger-400">
               Login here
             </Link>
           </p>
-          {errors.root && (
-            <p className="font-medium text-danger-500 text-sm">
-              {errors.root.message}
-            </p>
-          )}
+
           <form
             className={cn(
               "mt-3 flex flex-col lg:w-80",
@@ -126,9 +122,9 @@ const Register = () => {
                       onClick={() => handleVisiblePassword("password")}
                     >
                       {visiblePassword.password ? (
-                        <FaEye className="text-default-500 text-xl pointer-events-none" />
+                        <FaEye className="pointer-events-none text-xl text-default-500" />
                       ) : (
-                        <FaEyeSlash className="text-default-500 text-xl pointer-events-none" />
+                        <FaEyeSlash className="pointer-events-none text-xl text-default-500" />
                       )}
                     </button>
                   }
@@ -155,9 +151,9 @@ const Register = () => {
                       onClick={() => handleVisiblePassword("confirmPassword")}
                     >
                       {visiblePassword.confirmPassword ? (
-                        <FaEye className="text-default-500 text-xl pointer-events-none" />
+                        <FaEye className="pointer-events-none text-xl text-default-500" />
                       ) : (
-                        <FaEyeSlash className="text-default-500 text-xl pointer-events-none" />
+                        <FaEyeSlash className="pointer-events-none text-xl text-default-500" />
                       )}
                     </button>
                   }

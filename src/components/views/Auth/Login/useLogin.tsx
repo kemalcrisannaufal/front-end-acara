@@ -1,9 +1,10 @@
+import { ToasterContext } from "@/src/contexts/ToasterContext";
 import { ILogin } from "@/src/types/Auth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
@@ -22,6 +23,7 @@ const useLogin = () => {
   const handleVisiblePassword = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
+  const { setToaster } = useContext(ToasterContext);
 
   const {
     control,
@@ -39,7 +41,7 @@ const useLogin = () => {
     });
 
     if (result?.error) {
-      throw new Error("Password or username is incorrect");
+      throw new Error("Username or password is incorrect");
     }
     return result;
   };
@@ -47,13 +49,12 @@ const useLogin = () => {
   const { mutate: mutateLogin, isPending: isPendingLogin } = useMutation({
     mutationFn: loginService,
     onError: (error) => {
-      setError("root", {
-        message: error.message,
-      });
+      setToaster({ type: "error", message: error.message });
     },
     onSuccess: () => {
-      router.push(callbackUrl);
       reset();
+      setToaster({ type: "success", message: "Login Success" });
+      router.push(callbackUrl);
     },
   });
 

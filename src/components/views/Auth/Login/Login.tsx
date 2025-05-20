@@ -25,8 +25,8 @@ const Login = () => {
   } = useLogin();
   console.log(errors);
   return (
-    <div className="flex lg:flex-row flex-col justify-center items-center gap-10 lg-gap-20 w-full">
-      <div className="flex flex-col justify-center items-center gap-10 w-full lg:w-1/3">
+    <div className="lg-gap-20 flex w-full flex-col items-center justify-center gap-10 lg:flex-row">
+      <div className="flex w-full flex-col items-center justify-center gap-10 lg:w-1/3">
         <Image
           src={"/images/general/logo.svg"}
           alt="logo"
@@ -44,7 +44,7 @@ const Login = () => {
 
       <Card className="w-full lg:w-max">
         <CardBody className="p-5 lg:p-8">
-          <h1 className="font-bold text-danger-500 text-xl">Login</h1>
+          <h1 className="text-xl font-bold text-danger-500">Login</h1>
           <p className="text-sm">
             Don&apos;t have an account{" "}
             <Link
@@ -54,13 +54,9 @@ const Login = () => {
               Register here
             </Link>
           </p>
-          {errors.root && (
-            <p className="font-medium text-danger-500 text-sm">
-              {errors.root.message}
-            </p>
-          )}
+
           <form
-            className="flex flex-col gap-4 mt-3 lg:w-80"
+            className="mt-3 flex flex-col gap-4 lg:w-80"
             onSubmit={handleSubmit(handleLogin)}
           >
             <Controller
@@ -96,9 +92,9 @@ const Login = () => {
                       onClick={handleVisiblePassword}
                     >
                       {isPasswordVisible ? (
-                        <FaEye className="text-default-500 text-xl pointer-events-none" />
+                        <FaEye className="pointer-events-none text-xl text-default-500" />
                       ) : (
-                        <FaEyeSlash className="text-default-500 text-xl pointer-events-none" />
+                        <FaEyeSlash className="pointer-events-none text-xl text-default-500" />
                       )}
                     </button>
                   }
