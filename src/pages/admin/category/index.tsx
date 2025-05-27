@@ -1,6 +1,5 @@
 import DashboardLayout from "@/src/components/layouts/DashboardLayout";
 import Category from "@/src/components/views/Admin/Category";
-import DashboardAdmin from "@/src/components/views/Admin/Dashboard";
 
 const AdminCategoryPage = () => {
   return (

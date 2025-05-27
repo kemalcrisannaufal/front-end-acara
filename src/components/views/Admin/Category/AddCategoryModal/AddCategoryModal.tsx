@@ -111,6 +111,7 @@ const AddCategoryModal = (props: Proptypes) => {
                     preview={typeof preview === "string" ? preview : ""}
                     isDeleting={isPendingMutateDeleteFile}
                     isDropable
+                    label={<p>Upload Icon</p>}
                     isInvalid={errors.icon !== undefined}
                     errorMessage={errors.icon?.message}
                   />
