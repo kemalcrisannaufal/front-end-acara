@@ -1,4 +1,5 @@
 import { LIMIT_LIST } from "@/src/constants/list.constants";
+import useChangeUrl from "@/src/hooks/useChangeUrl";
 import { cn } from "@/src/utils/cn";
 import {
   Button,
@@ -15,22 +16,16 @@ import {
   TableRow,
 } from "@nextui-org/react";
 
-import { ChangeEvent, Key, ReactNode, useMemo } from "react";
+import { Key, ReactNode, useMemo } from "react";
 import { CiSearch } from "react-icons/ci";
 
 interface Proptypes {
   buttonTopContentLabel?: string;
   columns: Record<string, unknown>[];
-  currentPage: number;
   data: Record<string, unknown>[];
   emptyContent: string;
   isLoading?: boolean;
-  limit: string;
-  onChangeLimit: (e: ChangeEvent<HTMLSelectElement>) => void;
-  onChangePage: (page: number) => void;
-  onClearSearch: () => void;
   onClickButtonTopContent?: () => void;
-  onChangeSearch: (e: ChangeEvent<HTMLInputElement>) => void;
   renderCell: (item: Record<string, unknown>, columnKey: Key) => ReactNode;
   totalPages: number;
 }
@@ -39,27 +34,31 @@ const DataTable = (props: Proptypes) => {
   const {
     buttonTopContentLabel,
     columns,
-    currentPage,
     data,
     emptyContent,
     isLoading,
-    limit,
-    onChangeLimit,
-    onClearSearch,
     onClickButtonTopContent,
-    onChangePage,
-    onChangeSearch,
     renderCell,
     totalPages,
   } = props;
+
+  const {
+    currentLimit,
+    currentPage,
+    handleChangeLimit,
+    handleChangePage,
+    handleSearch,
+    handleClearSearch,
+  } = useChangeUrl();
+
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col justify-between gap-y-4 lg:flex-row lg:items-center">
         <Input
           className="w-full max-w-52 lg:max-w-[25%]"
           isClearable
-          onChange={onChangeSearch}
-          onClear={onClearSearch}
+          onChange={handleSearch}
+          onClear={handleClearSearch}
           placeholder="Search by Name"
           startContent={<CiSearch />}
         />
@@ -75,15 +74,20 @@ const DataTable = (props: Proptypes) => {
         )}
       </div>
     );
-  }, [buttonTopContentLabel, onClearSearch, onClickButtonTopContent]);
+  }, [
+    buttonTopContentLabel,
+    handleClearSearch,
+    handleSearch,
+    onClickButtonTopContent,
+  ]);
 
   const bottomContent = useMemo(() => {
     return (
       <div className="flex flex-row items-center justify-center lg:justify-between">
         <Select
           className="hidden w-full max-w-36 lg:block"
-          onChange={onChangeLimit}
-          selectedKeys={new Set([limit])}
+          onChange={handleChangeLimit}
+          selectedKeys={new Set([`${currentLimit}`])}
           selectionMode="single"
           startContent={<p className="text-small">Show:</p>}
           size="md"
@@ -100,8 +104,8 @@ const DataTable = (props: Proptypes) => {
           <Pagination
             color="danger"
             isCompact
-            onChange={onChangePage}
-            page={currentPage}
+            onChange={handleChangePage}
+            page={Number(currentPage)}
             showControls
             size="md"
             total={totalPages}
@@ -110,7 +114,13 @@ const DataTable = (props: Proptypes) => {
         )}
       </div>
     );
-  }, [limit, currentPage, totalPages, onChangePage, onChangeLimit]);
+  }, [
+    currentLimit,
+    currentPage,
+    totalPages,
+    handleChangeLimit,
+    handleChangePage,
+  ]);
   return (
     <Table
       bottomContent={bottomContent}
