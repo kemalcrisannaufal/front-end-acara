@@ -23,7 +23,7 @@ const useEvent = () => {
     data: dataEvent,
     isLoading: isLoadingEvent,
     isRefetching: isRefetchingEvent,
-    refetch: refetchEvent,
+    refetch: refetchEvents,
   } = useQuery({
     queryKey: ["Events", currentLimit, currentPage, currentSearch],
     queryFn: getEvents,
@@ -34,7 +34,7 @@ const useEvent = () => {
     dataEvent,
     isLoadingEvent,
     isRefetchingEvent,
-    refetchEvent,
+    refetchEvents,
 
     selectedId,
     setSelectedId,

@@ -2,16 +2,25 @@ import { useRouter } from "next/router";
 import useEvent from "./useEvent";
 import { Key, ReactNode, useCallback, useEffect } from "react";
 import Image from "next/image";
-import { Chip } from "@nextui-org/react";
+import { Chip, useDisclosure } from "@nextui-org/react";
 import DataTable from "@/src/components/ui/DataTable";
 import { COLUMNS_LIST_EVENT } from "./Event.constants";
 import useChangeUrl from "@/src/hooks/useChangeUrl";
 import { DropdownActions } from "@/src/components/common/DropdownActions";
+import AddEventModal from "./AddEventModal";
 
 const Event = () => {
   const { isReady, query } = useRouter();
-  const { dataEvent, isLoadingEvent, isRefetchingEvent } = useEvent();
+  const {
+    dataEvent,
+    isLoadingEvent,
+    isRefetchingEvent,
+    refetchEvents,
+    selectedId,
+  } = useEvent();
   const { setURL } = useChangeUrl();
+
+  const addEvent = useDisclosure();
 
   useEffect(() => {
     setURL();
@@ -68,11 +77,13 @@ const Event = () => {
           data={dataEvent?.data || []}
           emptyContent="Event not found"
           isLoading={isLoadingEvent || isRefetchingEvent}
-          onClickButtonTopContent={() => {}}
+          onClickButtonTopContent={addEvent.onOpen}
           renderCell={renderCell}
           totalPages={dataEvent?.pagination.totalPage}
         />
       )}
+
+      <AddEventModal {...addEvent} refetchEvents={refetchEvents} />
     </section>
   );
 };

@@ -17,10 +17,11 @@ const categorySchema = yup.object().shape({
 const useAddCategoryModal = () => {
   const { setToaster } = useContext(ToasterContext);
   const {
-    mutateUploadFile,
     isPendingMutateUploadFile,
-    mutateDeleteFile,
     isPendingMutateDeleteFile,
+
+    handleUploadFile,
+    handleDeleteFile,
   } = useMediaHandling();
 
   const {
@@ -34,48 +35,36 @@ const useAddCategoryModal = () => {
   } = useForm({ resolver: yupResolver(categorySchema) });
 
   const preview = watch("icon");
+  const fileUrl = getValues("icon");
 
   const handleUploadIcon = (
     files: FileList,
     onChange: (files: FileList | undefined) => void,
   ) => {
-    if (files.length !== 0) {
-      onChange(files);
-      mutateUploadFile({
-        file: files[0],
-        callback: (fileUrl) => setValue("icon", fileUrl),
-      });
-    }
+    handleUploadFile(files, onChange, (fileUrl) => {
+      if (fileUrl) {
+        setValue("icon", fileUrl);
+      }
+    });
   };
 
   const handleDeleteIcon = (
     onChange: (files: FileList | undefined) => void,
   ) => {
-    const fileUrl = getValues("icon");
     if (typeof fileUrl === "string") {
-      mutateDeleteFile({
-        fileUrl,
-        callback: () => {
-          onChange(undefined);
-          setValue("icon", "");
-        },
+      handleDeleteFile(fileUrl, () => {
+        onChange(undefined);
+        setValue("icon", "");
       });
     }
   };
 
   const handleOnClose = (onClose: () => void) => {
-    const fileUrl = getValues("icon");
     if (typeof fileUrl === "string") {
-      mutateDeleteFile({
-        fileUrl,
-        callback: () => {
-          reset();
-          onClose();
-        },
+      handleDeleteFile(fileUrl, () => {
+        reset();
+        onClose();
       });
-    } else {
-      reset();
-      onClose();
     }
   };
 

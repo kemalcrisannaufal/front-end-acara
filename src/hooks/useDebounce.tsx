@@ -7,7 +7,7 @@ const useDebounce = () => {
     debounceTimeout.current = setTimeout(() => {
       func();
       debounceTimeout.current = null;
-    });
+    }, delay);
   };
   return debounce;
 };
