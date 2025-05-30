@@ -52,7 +52,6 @@ const AddEventModal = (props: Proptypes) => {
     dataRegency,
     handleSearchRegion,
   } = useAddEventModal();
-  console.log(errors);
 
   const disabledSubmit =
     isPendingMutateAddEvent ||

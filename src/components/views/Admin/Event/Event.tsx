@@ -8,6 +8,7 @@ import { COLUMNS_LIST_EVENT } from "./Event.constants";
 import useChangeUrl from "@/src/hooks/useChangeUrl";
 import { DropdownActions } from "@/src/components/common/DropdownActions";
 import AddEventModal from "./AddEventModal";
+import DeleteEventModal from "./DeleteEventModal";
 
 const Event = () => {
   const { isReady, query } = useRouter();
@@ -17,10 +18,12 @@ const Event = () => {
     isRefetchingEvent,
     refetchEvents,
     selectedId,
+    setSelectedId,
   } = useEvent();
   const { setURL } = useChangeUrl();
 
   const addEvent = useDisclosure();
+  const deleteEvent = useDisclosure();
 
   useEffect(() => {
     setURL();
@@ -56,7 +59,10 @@ const Event = () => {
         case "actions":
           return (
             <DropdownActions
-              onPressButtonDelete={() => {}}
+              onPressButtonDelete={() => {
+                setSelectedId(event._id as string);
+                deleteEvent.onOpen();
+              }}
               onPressButtonDetail={() => {}}
             />
           );
@@ -84,6 +90,11 @@ const Event = () => {
       )}
 
       <AddEventModal {...addEvent} refetchEvents={refetchEvents} />
+      <DeleteEventModal
+        {...deleteEvent}
+        selectedId={selectedId}
+        refetchEvents={refetchEvents}
+      />
     </section>
   );
 };
