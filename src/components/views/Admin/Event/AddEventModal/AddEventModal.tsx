@@ -140,8 +140,8 @@ const AddEventModal = (props: Proptypes) => {
                         {...field}
                         label="Start Date"
                         variant="bordered"
-                        isInvalid={errors.slug !== undefined}
-                        errorMessage={errors.slug?.message}
+                        isInvalid={errors.startDate !== undefined}
+                        errorMessage={errors.startDate?.message}
                         showMonthAndYearPickers
                         hideTimeZone
                         defaultValue={now(getLocalTimeZone())}
@@ -181,7 +181,7 @@ const AddEventModal = (props: Proptypes) => {
                           Publish
                         </SelectItem>
                         <SelectItem key="false" value="false">
-                          Unpublish
+                          Draft
                         </SelectItem>
                       </Select>
                     )}

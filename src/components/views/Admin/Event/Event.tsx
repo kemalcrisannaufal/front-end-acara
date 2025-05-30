@@ -11,7 +11,7 @@ import AddEventModal from "./AddEventModal";
 import DeleteEventModal from "./DeleteEventModal";
 
 const Event = () => {
-  const { isReady, query } = useRouter();
+  const { isReady, query, push } = useRouter();
   const {
     dataEvent,
     isLoadingEvent,
@@ -63,7 +63,9 @@ const Event = () => {
                 setSelectedId(event._id as string);
                 deleteEvent.onOpen();
               }}
-              onPressButtonDetail={() => {}}
+              onPressButtonDetail={() => {
+                push(`/admin/event/${event.slug as string}`);
+              }}
             />
           );
 

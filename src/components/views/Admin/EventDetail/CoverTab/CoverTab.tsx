@@ -8,74 +8,76 @@ import {
   Spinner,
 } from "@nextui-org/react";
 import Image from "next/image";
-import useIconTab from "./useIconTab";
+
 import { Controller } from "react-hook-form";
 import { useEffect } from "react";
+import useCoverTab from "./useCoverTab";
 
 interface Proptypes {
-  currentIcon: string;
-  onUpdate: (payload: { icon: FileList | string }) => void;
+  currentCover: string;
+  onUpdate: (payload: { banner: FileList | string }) => void;
   isPendingUpdate: boolean;
   isSuccessUpdate: boolean;
 }
 
-const IconTab = (props: Proptypes) => {
-  const { currentIcon, onUpdate, isPendingUpdate, isSuccessUpdate } = props;
+const CoverTab = (props: Proptypes) => {
+  const { currentCover, onUpdate, isPendingUpdate, isSuccessUpdate } = props;
   const {
-    controlIconUpdate,
-    handleSubmitIconUpdate,
-    iconUpdateErrors,
+    controlCoverUpdate,
+    handleSubmitCoverUpdate,
+    coverUpdateErrors,
 
-    handleUploadIcon,
+    handleUploadCover,
     isPendingMutateUploadFile,
-    handleDeleteIcon,
+    handleDeleteCover,
     isPendingMutateDeleteFile,
 
-    resetIconUpdate,
+    resetCoverUpdate,
     preview,
-  } = useIconTab();
+  } = useCoverTab();
 
   useEffect(() => {
     if (isSuccessUpdate) {
-      resetIconUpdate();
+      resetCoverUpdate();
     }
   }, [isSuccessUpdate]);
 
   return (
     <Card className="w-full p-2 lg:max-w-xl">
       <CardHeader className="flex flex-col items-start">
-        <h2 className="font-semibold">Category Icon</h2>
+        <h2 className="font-semibold">Event Cover</h2>
         <p className="text-small text-default-400">
-          Manage icon of this category
+          Manage cover of this event
         </p>
       </CardHeader>
+
       <CardBody>
-        <form onSubmit={handleSubmitIconUpdate(onUpdate)}>
-          <p className="mt-5 text-small">Current Icon</p>
+        <form onSubmit={handleSubmitCoverUpdate(onUpdate)}>
+          <p className="mt-5 text-small">Current Cover</p>
 
           <Skeleton
-            isLoaded={!!currentIcon}
+            isLoaded={!!currentCover}
             className="aspect-square rounded-lg"
           >
-            <Image src={currentIcon} alt={"icon"} width={500} height={500} />
+            <Image src={currentCover} alt={"icon"} width={500} height={500} />
           </Skeleton>
 
           <div className="flex flex-col gap-4">
             <Controller
-              control={controlIconUpdate}
-              name="icon"
+              control={controlCoverUpdate}
+              name="banner"
               render={({ field: { onChange, value, ...field } }) => (
                 <InputFile
                   {...field}
-                  onDelete={() => handleDeleteIcon(onChange)}
-                  onUpload={(files) => handleUploadIcon(files, onChange)}
+                  onDelete={() => handleDeleteCover(onChange)}
+                  onUpload={(files) => handleUploadCover(files, onChange)}
                   isUploading={isPendingMutateUploadFile}
                   preview={typeof preview === "string" ? preview : ""}
                   isDeleting={isPendingMutateDeleteFile}
                   isDropable
                   label={<p className="mt-5 text-small">Upload New Icon</p>}
-                  isInvalid={iconUpdateErrors.icon !== undefined}
-                  errorMessage={iconUpdateErrors.icon?.message}
+                  isInvalid={coverUpdateErrors.banner !== undefined}
+                  errorMessage={coverUpdateErrors.banner?.message}
                 />
               )}
             />
@@ -104,4 +106,4 @@ const IconTab = (props: Proptypes) => {
   );
 };
 
-export default IconTab;
+export default CoverTab;
