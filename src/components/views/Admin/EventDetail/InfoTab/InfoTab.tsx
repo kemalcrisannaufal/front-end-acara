@@ -39,22 +39,22 @@ const InfoTab = (props: Proptypes) => {
   } = useInfoTab();
 
   useEffect(() => {
-    if (dataEvent) {
-      console.log(dataEvent);
-      setValueInfoUpdate("name", dataEvent?.name || "");
-      setValueInfoUpdate("slug", dataEvent?.slug || "");
-      setValueInfoUpdate("category", dataEvent?.category || "");
-      setValueInfoUpdate("startDate", toInputDate(`${dataEvent?.startDate}`));
-      setValueInfoUpdate("endDate", toInputDate(`${dataEvent?.endDate}`));
-      setValueInfoUpdate("isPublish", dataEvent?.isPublish ? "true" : "false");
-      setValueInfoUpdate("isFeatured", dataEvent?.isPublish ? "true" : "false");
-      setValueInfoUpdate("description", dataEvent?.description || "");
-    }
-  }, [dataEvent]);
-
-  useEffect(() => {
     if (isSuccessUpdate) resetInfoUpdate();
   }, [isSuccessUpdate]);
+
+  useEffect(() => {
+    if (dataEvent) {
+      setValueInfoUpdate("name", `${dataEvent?.name}`);
+      setValueInfoUpdate("description", `${dataEvent?.description}`);
+      setValueInfoUpdate("slug", `${dataEvent?.slug}`);
+      setValueInfoUpdate("category", `${dataEvent?.category}`);
+      setValueInfoUpdate("startDate", toInputDate(`${dataEvent?.startDate}`));
+      setValueInfoUpdate("endDate", toInputDate(`${dataEvent?.endDate}`));
+      setValueInfoUpdate("isPublish", `${dataEvent?.isPublish}`);
+      setValueInfoUpdate("isFeatured", `${dataEvent?.isFeatured}`);
+    }
+  }, [dataEvent, isSuccessUpdate]);
+
   return (
     <Card className="w-full p-2 lg:max-w-xl">
       <CardHeader className="flex flex-col items-start">
@@ -70,7 +70,7 @@ const InfoTab = (props: Proptypes) => {
               control={controlInfoUpdate}
               name="name"
               render={({ field }) => (
-                <Skeleton isLoaded={!!dataEvent?.name}>
+                <Skeleton isLoaded={!!dataEvent}>
                   <Input
                     {...field}
                     label="Name"
@@ -86,7 +86,7 @@ const InfoTab = (props: Proptypes) => {
               control={controlInfoUpdate}
               name="slug"
               render={({ field }) => (
-                <Skeleton isLoaded={!!dataEvent?.slug}>
+                <Skeleton isLoaded={!!dataEvent}>
                   <Input
                     {...field}
                     label="Slug"
@@ -102,7 +102,7 @@ const InfoTab = (props: Proptypes) => {
               control={controlInfoUpdate}
               name="category"
               render={({ field: { onChange, ...field } }) => (
-                <Skeleton isLoaded={!!dataEvent?.category}>
+                <Skeleton isLoaded={!!dataEvent}>
                   <Autocomplete
                     {...field}
                     defaultItems={dataCategory?.data.data || []}
@@ -128,7 +128,7 @@ const InfoTab = (props: Proptypes) => {
               control={controlInfoUpdate}
               name="startDate"
               render={({ field }) => (
-                <Skeleton isLoaded={!!dataEvent?.startDate}>
+                <Skeleton isLoaded={!!dataEvent}>
                   <DatePicker
                     {...field}
                     label="Start Date"
@@ -146,7 +146,7 @@ const InfoTab = (props: Proptypes) => {
               control={controlInfoUpdate}
               name="endDate"
               render={({ field }) => (
-                <Skeleton isLoaded={!!dataEvent?.endDate}>
+                <Skeleton isLoaded={!!dataEvent}>
                   <DatePicker
                     {...field}
                     label="End Date"
@@ -160,64 +160,66 @@ const InfoTab = (props: Proptypes) => {
                 </Skeleton>
               )}
             />
-            <Controller
-              control={controlInfoUpdate}
-              name="isPublish"
-              render={({ field }) => (
-                <Skeleton isLoaded={!!dataEvent?.isPublish}>
+
+            <Skeleton isLoaded={!!dataEvent} className="rounded-lg">
+              <Controller
+                name="isPublish"
+                control={controlInfoUpdate}
+                render={({ field }) => (
                   <Select
                     {...field}
                     label="Status"
                     variant="bordered"
-                    labelPlacement="outside"
+                    isInvalid={infoUpdateErrors.isPublish !== undefined}
+                    errorMessage={infoUpdateErrors.isPublish?.message}
+                    disallowEmptySelection
                     defaultSelectedKeys={[
                       dataEvent?.isPublish ? "true" : "false",
                     ]}
-                    isInvalid={infoUpdateErrors.isPublish !== undefined}
-                    errorMessage={infoUpdateErrors.isPublish?.message || ""}
                   >
-                    <SelectItem key={"true"} value={"true"}>
+                    <SelectItem key="true" value="true">
                       Publish
                     </SelectItem>
-                    <SelectItem key={"false"} value={"false"}>
+                    <SelectItem key="false" value="false">
                       Draft
                     </SelectItem>
                   </Select>
-                </Skeleton>
-              )}
-            />
-            <Controller
-              control={controlInfoUpdate}
-              name="isFeatured"
-              render={({ field }) => (
-                <Skeleton isLoaded={!!dataEvent?.isFeatured}>
+                )}
+              />
+            </Skeleton>
+
+            <Skeleton isLoaded={!!dataEvent} className="rounded-lg">
+              <Controller
+                name="isFeatured"
+                control={controlInfoUpdate}
+                render={({ field }) => (
                   <Select
                     {...field}
                     label="Featured"
                     variant="bordered"
-                    labelPlacement="outside"
+                    isInvalid={infoUpdateErrors.isFeatured !== undefined}
+                    errorMessage={infoUpdateErrors.isFeatured?.message}
+                    disallowEmptySelection
                     defaultSelectedKeys={[
                       dataEvent?.isFeatured ? "true" : "false",
                     ]}
-                    isInvalid={infoUpdateErrors.isFeatured !== undefined}
-                    errorMessage={infoUpdateErrors.isFeatured?.message || ""}
                   >
-                    <SelectItem key={"true"} value={"true"}>
+                    <SelectItem key="true" value="true">
                       Yes
                     </SelectItem>
-                    <SelectItem key={"false"} value={"false"}>
+                    <SelectItem key="false" value="false">
                       No
                     </SelectItem>
                   </Select>
-                </Skeleton>
-              )}
-            />
+                )}
+              />
+            </Skeleton>
 
             <Controller
               control={controlInfoUpdate}
               name="description"
               render={({ field }) => (
-                <Skeleton isLoaded={!!dataEvent?.description}>
+                <Skeleton isLoaded={!!dataEvent}>
                   <Textarea
                     {...field}
                     label="Description"

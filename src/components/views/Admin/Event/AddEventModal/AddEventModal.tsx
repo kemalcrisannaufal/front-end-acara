@@ -297,6 +297,20 @@ const AddEventModal = (props: Proptypes) => {
                       />
                     )}
                   />
+                  <Controller
+                    control={control}
+                    name="address"
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        autoFocus
+                        label="Address"
+                        variant="bordered"
+                        isInvalid={errors.address !== undefined}
+                        errorMessage={errors.address?.message}
+                      />
+                    )}
+                  />
                 </div>
 
                 <div>

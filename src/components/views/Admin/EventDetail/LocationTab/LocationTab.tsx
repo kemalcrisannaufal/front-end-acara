@@ -23,6 +23,7 @@ interface Proptypes {
   defaultRegion: string;
   isPendingDefaultRegion: boolean;
   isSuccessUpdate: boolean;
+  refetchDefaultRegion: () => void;
 }
 
 const LocationTab = (props: Proptypes) => {
@@ -33,6 +34,7 @@ const LocationTab = (props: Proptypes) => {
     defaultRegion,
     isPendingDefaultRegion,
     isSuccessUpdate,
+    refetchDefaultRegion,
   } = props;
   const {
     controlLocationUpdate,
@@ -44,6 +46,12 @@ const LocationTab = (props: Proptypes) => {
 
     dataRegency,
   } = useLocationTab();
+
+  useEffect(() => {
+    if (isSuccessUpdate) {
+      resetLocationUpdate();
+    }
+  }, [isSuccessUpdate]);
 
   useEffect(() => {
     if (dataEvent) {
@@ -58,14 +66,9 @@ const LocationTab = (props: Proptypes) => {
       );
 
       setValueLocationUpdate("region", `${dataEvent.location?.region}`);
+      setValueLocationUpdate("address", `${dataEvent.location?.address}`);
     }
-  }, [dataEvent]);
-
-  useEffect(() => {
-    if (isSuccessUpdate) {
-      resetLocationUpdate();
-    }
-  }, [isSuccessUpdate]);
+  }, [dataEvent, isSuccessUpdate]);
 
   return (
     <Card className="w-full p-2 lg:max-w-xl">
@@ -82,7 +85,7 @@ const LocationTab = (props: Proptypes) => {
               control={controlLocationUpdate}
               name="isOnline"
               render={({ field }) => (
-                <Skeleton isLoaded={!!dataEvent?.isOnline}>
+                <Skeleton isLoaded={!!dataEvent}>
                   <Select
                     {...field}
                     label="Online/Offline"
@@ -109,7 +112,7 @@ const LocationTab = (props: Proptypes) => {
               control={controlLocationUpdate}
               name="latitude"
               render={({ field }) => (
-                <Skeleton isLoaded={!!dataEvent?.name}>
+                <Skeleton isLoaded={!!dataEvent}>
                   <Input
                     {...field}
                     label="Latitude"
@@ -126,7 +129,7 @@ const LocationTab = (props: Proptypes) => {
               control={controlLocationUpdate}
               name="longitude"
               render={({ field }) => (
-                <Skeleton isLoaded={!!dataEvent?.name}>
+                <Skeleton isLoaded={!!dataEvent}>
                   <Input
                     {...field}
                     label="longitude"
@@ -143,9 +146,7 @@ const LocationTab = (props: Proptypes) => {
               control={controlLocationUpdate}
               name="region"
               render={({ field: { onChange, ...field } }) => (
-                <Skeleton
-                  isLoaded={!!dataEvent?.category && !isPendingDefaultRegion}
-                >
+                <Skeleton isLoaded={!!dataEvent && !isPendingDefaultRegion}>
                   <Autocomplete
                     {...field}
                     defaultItems={dataRegency?.data.data || []}
@@ -164,6 +165,23 @@ const LocationTab = (props: Proptypes) => {
                       </AutocompleteItem>
                     )}
                   </Autocomplete>
+                </Skeleton>
+              )}
+            />
+
+            <Controller
+              control={controlLocationUpdate}
+              name="address"
+              render={({ field }) => (
+                <Skeleton isLoaded={!!dataEvent}>
+                  <Input
+                    {...field}
+                    label="Address"
+                    labelPlacement="outside"
+                    type="text"
+                    isInvalid={locationUpdateErrors.longitude !== undefined}
+                    errorMessage={locationUpdateErrors.longitude?.message || ""}
+                  />
                 </Skeleton>
               )}
             />

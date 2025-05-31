@@ -1,10 +1,11 @@
 import { ToasterContext } from "@/src/contexts/ToasterContext";
 import eventServices from "@/src/services/event.service";
 import { IEvent, IEventForm } from "@/src/types/Event";
+import { convertStringToBoolean } from "@/src/utils/boolean";
 import { toDateStandard } from "@/src/utils/date";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 const useEventDetail = () => {
   const { setToaster } = useContext(ToasterContext);
@@ -42,12 +43,17 @@ const useEventDetail = () => {
     },
   });
 
-  const { data: dataDefaultRegion, isPending: isPendingDefaultRegion } =
-    useQuery({
-      queryKey: ["defaultRegion"],
-      queryFn: () => eventServices.getRegencyById(dataEvent.location?.region),
-      enabled: true,
-    });
+  const regionId = dataEvent?.location?.region;
+
+  const {
+    data: dataDefaultRegion,
+    isPending: isPendingDefaultRegion,
+    refetch: refetchDefaultRegion,
+  } = useQuery({
+    queryKey: ["defaultRegion", regionId],
+    queryFn: () => eventServices.getRegencyById(regionId),
+    enabled: !!regionId,
+  });
 
   const handleUpdateBanner = (payload: { banner: FileList | string }) => {
     mutateUpdateEvent(payload);
@@ -60,9 +66,10 @@ const useEventDetail = () => {
       category: data.category || dataEvent.category,
       startDate: toDateStandard(data.startDate) || dataEvent.startDate,
       endDate: toDateStandard(data.endDate) || dataEvent.endDate,
-      isPublish: Boolean(data.isPublish) || dataEvent.isPublish,
-      isFeatured: Boolean(data.isFeatured) || dataEvent.isFeatured,
-      isOnline: Boolean(data.isOnline) || dataEvent.isOnline,
+      isPublish: convertStringToBoolean(data.isPublish) || dataEvent.isPublish,
+      isFeatured:
+        convertStringToBoolean(data.isFeatured) || dataEvent.isFeatured,
+      isOnline: convertStringToBoolean(data.isOnline) || dataEvent.isOnline,
       description: data.description || dataEvent.description,
     };
 
@@ -71,10 +78,11 @@ const useEventDetail = () => {
 
   const handleUpdateLocation = (data: IEventForm) => {
     const payload = {
-      isOnline: Boolean(data.isOnline) || dataEvent.isOnline,
+      isOnline: convertStringToBoolean(data.isOnline) || dataEvent.isOnline,
       location: {
         region: data.region || dataEvent.region,
         coordinates: [Number(data.latitude), Number(data.longitude)],
+        address: data.address || dataEvent.address,
       },
     };
     mutateUpdateEvent(payload);
@@ -93,6 +101,7 @@ const useEventDetail = () => {
 
     dataDefaultRegion,
     isPendingDefaultRegion,
+    refetchDefaultRegion,
   };
 };
 

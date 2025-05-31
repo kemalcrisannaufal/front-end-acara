@@ -13,6 +13,7 @@ interface IEvent {
   location?: {
     region: string;
     coordinates: number[];
+    address: string;
   };
   createdBy?: string;
 }
@@ -21,6 +22,7 @@ interface IEventForm extends IEvent {
   region?: string;
   latitude?: string;
   longitude?: string;
+  address?: string;
   isFeatured?: string;
   isOnline?: string;
   isPublish?: string;

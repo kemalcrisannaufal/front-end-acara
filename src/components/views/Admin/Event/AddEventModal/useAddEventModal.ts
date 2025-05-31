@@ -5,6 +5,7 @@ import useMediaHandling from "@/src/hooks/useMediaHandling";
 import categoryServices from "@/src/services/category.service";
 import eventServices from "@/src/services/event.service";
 import { IEvent, IEventForm } from "@/src/types/Event";
+import { convertStringToBoolean } from "@/src/utils/boolean";
 import { toDateStandard } from "@/src/utils/date";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getLocalTimeZone, now } from "@internationalized/date";
@@ -29,6 +30,7 @@ const eventSchema = yup.object().shape({
   region: yup.string().required("Please select region"),
   longitude: yup.string().required("Please input longitude coordinate"),
   latitude: yup.string().required("Please input latitude coordinate"),
+  address: yup.string().required("Please input address"),
 });
 
 const useAddEventModal = () => {
@@ -139,18 +141,20 @@ const useAddEventModal = () => {
   const handleAddEvent = (data: IEventForm) => {
     const payload = {
       ...data,
-      isFeatured: Boolean(data.isFeatured),
-      isOnline: Boolean(data.isOnline),
-      isPublish: Boolean(data.isPublish),
+      isFeatured: convertStringToBoolean(data.isFeatured),
+      isOnline: convertStringToBoolean(data.isOnline),
+      isPublish: convertStringToBoolean(data.isPublish),
       startDate: toDateStandard(data.startDate),
       endDate: toDateStandard(data.endDate),
       location: {
         region: data.region!,
         coordinates: [Number(data.latitude), Number(data.longitude)],
+        address: data.address || "",
       },
       banner: data.banner,
       createdBy: session.data?.user._id,
     };
+
     mutateAddEvent(payload);
   };
 

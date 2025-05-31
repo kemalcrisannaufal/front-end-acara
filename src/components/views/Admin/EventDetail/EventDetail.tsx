@@ -15,6 +15,8 @@ const EventDetail = () => {
     isPendingUpdateEvent,
     isSuccessUpdateEvent,
     isPendingDefaultRegion,
+
+    refetchDefaultRegion,
   } = useEventDetail();
 
   return (
@@ -44,6 +46,7 @@ const EventDetail = () => {
             onUpdate={handleUpdateLocation}
             isPendingDefaultRegion={isPendingDefaultRegion}
             defaultRegion={dataDefaultRegion?.data.data[0].name}
+            refetchDefaultRegion={refetchDefaultRegion}
           />
         </Tab>
       </Tabs>

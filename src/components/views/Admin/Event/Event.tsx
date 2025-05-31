@@ -45,7 +45,7 @@ const Event = () => {
             />
           );
 
-        case "isPublished":
+        case "isPublish":
           return (
             <Chip
               color={cellValue ? "success" : "warning"}

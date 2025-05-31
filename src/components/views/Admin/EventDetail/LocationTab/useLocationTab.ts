@@ -12,6 +12,7 @@ const locationSchema = yup.object().shape({
   region: yup.string().required("Please select region"),
   latitude: yup.string().required("Please input latitude coordinate"),
   longitude: yup.string().required("Please input longitude coordinate"),
+  address: yup.string().required("Please input address"),
 });
 const useLocationTab = () => {
   const debounce = useDebounce();
