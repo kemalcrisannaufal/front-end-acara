@@ -88,6 +88,25 @@ const useEventDetail = () => {
     mutateUpdateEvent(payload);
   };
 
+  const getTicketByEventId = async () => {
+    const { data } = await eventServices.getTicketsByEventId(
+      `${dataEvent._id}`,
+    );
+
+    return data.data;
+  };
+
+  const {
+    data: dataTicket,
+    isLoading: isLoadingTickets,
+    isRefetching: isRefetchingTickets,
+    refetch: refetchTickets,
+  } = useQuery({
+    queryKey: ["Tickets", dataEvent?._id],
+    queryFn: getTicketByEventId,
+    enabled: isReady,
+  });
+
   return {
     dataEvent,
     refetchEvent,
@@ -102,6 +121,11 @@ const useEventDetail = () => {
     dataDefaultRegion,
     isPendingDefaultRegion,
     refetchDefaultRegion,
+
+    dataTicket,
+    isLoadingTickets,
+    isRefetchingTickets,
+    refetchTickets,
   };
 };
 

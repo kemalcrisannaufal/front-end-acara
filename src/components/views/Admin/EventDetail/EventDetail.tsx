@@ -3,6 +3,7 @@ import CoverTab from "./CoverTab";
 import useEventDetail from "./useEventDetail";
 import InfoTab from "./InfoTab";
 import LocationTab from "./LocationTab";
+import TicketTab from "./TicketTab";
 
 const EventDetail = () => {
   const {
@@ -17,6 +18,11 @@ const EventDetail = () => {
     isPendingDefaultRegion,
 
     refetchDefaultRegion,
+
+    dataTicket,
+    isLoadingTickets,
+    isRefetchingTickets,
+    refetchTickets,
   } = useEventDetail();
 
   return (
@@ -47,6 +53,14 @@ const EventDetail = () => {
             isPendingDefaultRegion={isPendingDefaultRegion}
             defaultRegion={dataDefaultRegion?.data.data[0].name}
             refetchDefaultRegion={refetchDefaultRegion}
+          />
+        </Tab>
+        <Tab key={"ticket"} title={"Ticket"}>
+          <TicketTab
+            dataTicket={dataTicket}
+            isLoadingTickets={isLoadingTickets}
+            isRefetchingTickets={isRefetchingTickets}
+            refetchTickets={refetchTickets}
           />
         </Tab>
       </Tabs>

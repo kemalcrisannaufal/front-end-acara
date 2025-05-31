@@ -35,4 +35,13 @@ interface IRegency {
   name: string;
 }
 
-export type { IEvent, IEventForm, IRegency };
+interface ITicket {
+  _id: string;
+  name: string;
+  event: string;
+  description: string;
+  price: number;
+  quantity: number;
+}
+
+export type { IEvent, IEventForm, IRegency, ITicket };

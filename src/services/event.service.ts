@@ -15,6 +15,10 @@ const eventServices = {
     instance.get(`${endpoint.REGION}-search?name=${name}`),
   getRegencyById: (id: string) =>
     instance.get(`${endpoint.REGION}/${id}/regency`),
+
+  getTickets: (params: string) => instance.get(`${endpoint.TICKET}?${params}`),
+  getTicketsByEventId: (eventId: string) =>
+    instance.get(`${endpoint.TICKET}/${eventId}/event`),
 };
 
 export default eventServices;

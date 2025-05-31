@@ -28,6 +28,8 @@ interface Proptypes {
   onClickButtonTopContent?: () => void;
   renderCell: (item: Record<string, unknown>, columnKey: Key) => ReactNode;
   totalPages: number;
+  showSearch?: boolean;
+  showLimit?: boolean;
 }
 
 const DataTable = (props: Proptypes) => {
@@ -40,6 +42,8 @@ const DataTable = (props: Proptypes) => {
     onClickButtonTopContent,
     renderCell,
     totalPages,
+    showSearch = true,
+    showLimit = true,
   } = props;
 
   const {
@@ -52,8 +56,12 @@ const DataTable = (props: Proptypes) => {
   } = useChangeUrl();
 
   const topContent = useMemo(() => {
-    return (
-      <div className="flex flex-col justify-between gap-y-4 lg:flex-row lg:items-center">
+    return showSearch ? (
+      <div
+        className={
+          "flex flex-col justify-between gap-y-4 lg:flex-row lg:items-center"
+        }
+      >
         <Input
           className="w-full max-w-52 lg:max-w-[25%]"
           isClearable
@@ -73,7 +81,7 @@ const DataTable = (props: Proptypes) => {
           </Button>
         )}
       </div>
-    );
+    ) : null;
   }, [
     buttonTopContentLabel,
     handleClearSearch,
@@ -84,21 +92,23 @@ const DataTable = (props: Proptypes) => {
   const bottomContent = useMemo(() => {
     return (
       <div className="flex flex-row items-center justify-center lg:justify-between">
-        <Select
-          className="hidden w-full max-w-36 lg:block"
-          onChange={handleChangeLimit}
-          selectedKeys={new Set([`${currentLimit}`])}
-          selectionMode="single"
-          startContent={<p className="text-small">Show:</p>}
-          size="md"
-          disallowEmptySelection
-        >
-          {LIMIT_LIST.map((item) => (
-            <SelectItem key={item.value as Key} value={item.value}>
-              {item.label}
-            </SelectItem>
-          ))}
-        </Select>
+        {showLimit && (
+          <Select
+            className="hidden w-full max-w-36 lg:block"
+            onChange={handleChangeLimit}
+            selectedKeys={new Set([`${currentLimit}`])}
+            selectionMode="single"
+            startContent={<p className="text-small">Show:</p>}
+            size="md"
+            disallowEmptySelection
+          >
+            {LIMIT_LIST.map((item) => (
+              <SelectItem key={item.value as Key} value={item.value}>
+                {item.label}
+              </SelectItem>
+            ))}
+          </Select>
+        )}
 
         {totalPages > 1 && (
           <Pagination
