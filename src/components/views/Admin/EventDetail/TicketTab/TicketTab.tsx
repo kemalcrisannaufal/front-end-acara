@@ -58,6 +58,7 @@ const TicketTab = (props: Proptypes) => {
                 setSelectedTicket(ticket as unknown as ITicket);
                 updateTicket.onOpen();
               }}
+              textButtonDetail="Update"
             />
           );
 
@@ -70,11 +71,11 @@ const TicketTab = (props: Proptypes) => {
 
   return (
     <section>
-      <Card className="p-2 w-full">
-        <CardHeader className="flex lg:flex-row flex-col lg:justify-between items-start lg:items-center gap-3 lg:gap-0">
+      <Card className="w-full p-2">
+        <CardHeader className="flex flex-col items-start gap-3 lg:flex-row lg:items-center lg:justify-between lg:gap-0">
           <div>
             <h2 className="font-semibold">Event Ticket</h2>
-            <p className="text-default-400 text-small">
+            <p className="text-small text-default-400">
               Manage ticket of this event
             </p>
           </div>
