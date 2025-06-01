@@ -1,3 +1,4 @@
+import { ITicket } from "@/src/types/Event";
 interface IEvent {
   _id?: string;
   name?: string;
@@ -36,12 +37,17 @@ interface IRegency {
 }
 
 interface ITicket {
-  _id: string;
+  _id?: string;
   name: string;
-  event: string;
+  event?: string;
   description: string;
   price: number;
   quantity: number;
 }
 
-export type { IEvent, IEventForm, IRegency, ITicket };
+interface ITicketForm extends ITicket {
+  price: string;
+  quantity: string;
+}
+
+export type { IEvent, IEventForm, IRegency, ITicket, ITicketForm };

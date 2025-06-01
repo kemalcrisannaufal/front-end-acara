@@ -13,39 +13,49 @@ import useChangeUrl from "@/src/hooks/useChangeUrl";
 import { DropdownActions } from "@/src/components/common/DropdownActions";
 import useTicketTab from "./useTicketTab";
 import { ITicket } from "@/src/types/Event";
+import AddTicketModal from "./AddTicketModal";
+import DeleteTicketModal from "./DeleteTicketModal";
+import UpdateTicketModal from "./UpdateTicketModal";
 
 interface Proptypes {
   dataTicket: ITicket[];
   isLoadingTickets: boolean;
   isRefetchingTickets: boolean;
   refetchTickets: () => void;
+  eventId: string;
 }
 
 const TicketTab = (props: Proptypes) => {
-  const { dataTicket, isLoadingTickets, isRefetchingTickets, refetchTickets } =
-    props;
+  const {
+    dataTicket,
+    isLoadingTickets,
+    isRefetchingTickets,
+    refetchTickets,
+    eventId,
+  } = props;
 
   const { isReady, query, push } = useRouter();
-  const { selectedId, setSelectedId } = useTicketTab();
+  const { selectedId, setSelectedId, selectedTicket, setSelectedTicket } =
+    useTicketTab();
 
   const addTicket = useDisclosure();
   const updateTicket = useDisclosure();
   const deleteTicket = useDisclosure();
 
   const renderCell = useCallback(
-    (event: Record<string, unknown>, columnKey: Key) => {
-      const cellValue = event[columnKey as keyof typeof event];
+    (ticket: Record<string, unknown>, columnKey: Key) => {
+      const cellValue = ticket[columnKey as keyof typeof ticket];
 
       switch (columnKey) {
         case "actions":
           return (
             <DropdownActions
               onPressButtonDelete={() => {
-                setSelectedId(event._id as string);
+                setSelectedId(ticket._id as string);
                 deleteTicket.onOpen();
               }}
               onPressButtonDetail={() => {
-                setSelectedId(event._id as string);
+                setSelectedTicket(ticket as unknown as ITicket);
                 updateTicket.onOpen();
               }}
             />
@@ -60,15 +70,19 @@ const TicketTab = (props: Proptypes) => {
 
   return (
     <section>
-      <Card className="w-full p-2">
-        <CardHeader className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+      <Card className="p-2 w-full">
+        <CardHeader className="flex lg:flex-row flex-col lg:justify-between items-start lg:items-center gap-3 lg:gap-0">
           <div>
             <h2 className="font-semibold">Event Ticket</h2>
-            <p className="text-small text-default-400">
+            <p className="text-default-400 text-small">
               Manage ticket of this event
             </p>
           </div>
-          <Button variant="solid" color="danger">
+          <Button
+            variant="solid"
+            color="danger"
+            onPress={() => addTicket.onOpen()}
+          >
             Add New Ticket
           </Button>
         </CardHeader>
@@ -82,7 +96,6 @@ const TicketTab = (props: Proptypes) => {
               }
               emptyContent="Ticket is empty"
               isLoading={isLoadingTickets || isRefetchingTickets}
-              onClickButtonTopContent={addTicket.onOpen}
               renderCell={renderCell}
               showSearch={false}
               showLimit={false}
@@ -91,6 +104,25 @@ const TicketTab = (props: Proptypes) => {
           )}
         </CardBody>
       </Card>
+
+      <AddTicketModal
+        {...addTicket}
+        refetchTickets={refetchTickets}
+        eventId={eventId}
+      />
+
+      <UpdateTicketModal
+        {...updateTicket}
+        refetchTickets={refetchTickets}
+        selectedTicket={selectedTicket}
+        setSelectedTicket={setSelectedTicket}
+      />
+
+      <DeleteTicketModal
+        {...deleteTicket}
+        refetchTickets={refetchTickets}
+        selectedId={selectedId}
+      />
     </section>
   );
 };

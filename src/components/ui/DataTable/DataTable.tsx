@@ -39,7 +39,7 @@ const DataTable = (props: Proptypes) => {
     data,
     emptyContent,
     isLoading,
-    onClickButtonTopContent,
+    onClickButtonTopContent = () => {},
     renderCell,
     totalPages,
     showSearch = true,
@@ -91,10 +91,10 @@ const DataTable = (props: Proptypes) => {
 
   const bottomContent = useMemo(() => {
     return (
-      <div className="flex flex-row items-center justify-center lg:justify-between">
+      <div className="flex flex-row justify-center lg:justify-between items-center">
         {showLimit && (
           <Select
-            className="hidden w-full max-w-36 lg:block"
+            className="hidden lg:block w-full max-w-36"
             onChange={handleChangeLimit}
             selectedKeys={new Set([`${currentLimit}`])}
             selectionMode="single"
@@ -155,7 +155,7 @@ const DataTable = (props: Proptypes) => {
         isLoading={isLoading}
         items={data}
         loadingContent={
-          <div className="flex h-full w-full items-center justify-center bg-foreground-700/30 backdrop-blur">
+          <div className="flex justify-center items-center bg-foreground-700/30 backdrop-blur w-full h-full">
             <Spinner color="danger" />
           </div>
         }

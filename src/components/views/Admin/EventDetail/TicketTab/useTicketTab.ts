@@ -1,5 +1,6 @@
 import useChangeUrl from "@/src/hooks/useChangeUrl";
 import eventServices from "@/src/services/event.service";
+import { ITicket } from "@/src/types/Event";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -8,6 +9,7 @@ const useTicketTab = () => {
   const router = useRouter();
   const { currentLimit, currentPage, currentSearch } = useChangeUrl();
   const [selectedId, setSelectedId] = useState<string>("");
+  const [selectedTicket, setSelectedTicket] = useState<ITicket>();
 
   const getTickets = async () => {
     let params = `limit=${currentLimit}&page=${currentPage}`;
@@ -38,6 +40,8 @@ const useTicketTab = () => {
 
     selectedId,
     setSelectedId,
+    selectedTicket,
+    setSelectedTicket,
   };
 };
 

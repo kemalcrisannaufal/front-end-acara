@@ -61,6 +61,7 @@ const EventDetail = () => {
             isLoadingTickets={isLoadingTickets}
             isRefetchingTickets={isRefetchingTickets}
             refetchTickets={refetchTickets}
+            eventId={dataEvent?._id}
           />
         </Tab>
       </Tabs>

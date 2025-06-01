@@ -6,38 +6,38 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
+import useDeleteTicketModal from "./useDeleteTicketModal";
 import { useEffect } from "react";
-import useDeleteEventModal from "./useDeleteEventModal";
 
 interface Proptypes {
   isOpen: boolean;
-  onClose: () => void;
   onOpenChange: () => void;
+  onClose: () => void;
+  refetchTickets: () => void;
   selectedId: string;
-  refetchEvents: () => void;
 }
 
-const DeleteCategoryModal = (props: Proptypes) => {
-  const { isOpen, onClose, onOpenChange, selectedId, refetchEvents } = props;
+const DeleteTicketModal = (props: Proptypes) => {
+  const { isOpen, onOpenChange, onClose, refetchTickets, selectedId } = props;
   const {
-    isPendingMutateDeleteEvent,
-    handleDeleteEvent,
-    isSuccessMutateDeleteEvent,
-  } = useDeleteEventModal();
+    handleDeleteTicket,
+    isPendingMutateDeleteTicket,
+    isSuccessMutateDeleteTicket,
+  } = useDeleteTicketModal();
 
   useEffect(() => {
-    if (isSuccessMutateDeleteEvent) {
+    if (isSuccessMutateDeleteTicket) {
       onClose();
-      refetchEvents();
+      refetchTickets();
     }
-  }, [isSuccessMutateDeleteEvent]);
+  }, [isSuccessMutateDeleteTicket]);
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={onClose}>
       <ModalContent>
-        <ModalHeader>Delete Event</ModalHeader>
+        <ModalHeader>Delete Ticket</ModalHeader>
         <ModalBody>
           <p className="text-default-600 text-sm">
-            Are you sure want to delete this event?
+            Are you sure want to delete this ticket?
           </p>
         </ModalBody>
         <ModalFooter className="flex flex-row justify-end items-center gap-2">
@@ -48,10 +48,10 @@ const DeleteCategoryModal = (props: Proptypes) => {
             size="sm"
             variant="solid"
             color="danger"
-            onPress={() => handleDeleteEvent(selectedId)}
-            disabled={isPendingMutateDeleteEvent}
+            onPress={() => handleDeleteTicket(selectedId)}
+            disabled={isPendingMutateDeleteTicket}
           >
-            Delete Event
+            Delete Ticket
           </Button>
         </ModalFooter>
       </ModalContent>
@@ -59,4 +59,4 @@ const DeleteCategoryModal = (props: Proptypes) => {
   );
 };
 
-export default DeleteCategoryModal;
+export default DeleteTicketModal;
