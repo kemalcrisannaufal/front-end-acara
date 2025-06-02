@@ -33,11 +33,27 @@ const useHome = () => {
       enabled: true,
     });
 
+  const getLatestEvents = async () => {
+    const params = `limit=${LIMIT_EVENT}&page=${PAGE_DEFAULT}&isPublish=true`;
+    const { data } = await eventServices.getEvents(params);
+    return data.data;
+  };
+
+  const { data: dataLatestEvents, isLoading: isLoadingLatestEvents } = useQuery(
+    {
+      queryKey: ["LatestEvents"],
+      queryFn: getLatestEvents,
+      enabled: true,
+    },
+  );
+
   return {
     dataBanners,
     isLoadingBanners,
     dataFeaturedEvents,
     isLoadingFeaturedEvents,
+    dataLatestEvents,
+    isLoadingLatestEvents,
   };
 };
 

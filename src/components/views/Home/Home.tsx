@@ -8,6 +8,8 @@ const Home = () => {
     isLoadingBanners,
     dataFeaturedEvents,
     isLoadingFeaturedEvents,
+    dataLatestEvents,
+    isLoadingLatestEvents,
   } = useHome();
 
   return (
@@ -19,6 +21,11 @@ const Home = () => {
         isLoading={isLoadingFeaturedEvents}
       />
       <HomeSlider banners={dataBanners} isLoadingBanners={isLoadingBanners} />
+      <HomeList
+        title="Latest Event"
+        events={dataLatestEvents}
+        isLoading={isLoadingLatestEvents}
+      />
     </div>
   );
 };
