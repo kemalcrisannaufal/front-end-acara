@@ -74,7 +74,11 @@ const LandingPageLayoutNavbar = () => {
           <NavbarItem className="hidden lg:block">
             <Dropdown>
               <DropdownTrigger>
-                <Avatar src={dataProfile?.profilePicture} />
+                <Avatar
+                  src={dataProfile?.profilePicture}
+                  className="cursor-pointernpm"
+                  showFallback
+                />
               </DropdownTrigger>
               <DropdownMenu>
                 <DropdownItem

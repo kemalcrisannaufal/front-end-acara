@@ -18,19 +18,19 @@ const DashboardLayout = (props: Proptypes) => {
     <>
       <PageHead title={title} />
 
-      <div className="flex w-full max-w-screen-3xl 3xl:container">
+      <div className="flex w-full max-w-screen-2xl 2xl:container">
         <DashboardLayoutSidebar
           sidebarItems={type === "admin" ? SIDEBAR_ADMIN : SIDEBAR_MEMBER}
           isOpen={isOpen}
         />
-        <div className="p-8 w-full h-screen overflow-y-auto">
+        <div className="h-screen w-full overflow-y-auto p-8">
           <Navbar
             className="flex justify-between bg-transparent px-0"
             classNames={{ wrapper: "p-0" }}
             isBlurred={false}
             position="static"
           >
-            <h1 className="font-bold text-3xl">{title}</h1>
+            <h1 className="text-3xl font-bold">{title}</h1>
             <NavbarMenuToggle
               aria-label={isOpen ? "Close menu" : "Open menu"}
               onClick={() => setIsOpen(!isOpen)}

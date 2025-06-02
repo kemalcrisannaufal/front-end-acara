@@ -9,9 +9,9 @@ interface Proptypes {
 const AuthLayout = (props: Proptypes) => {
   const { children, title } = props;
   return (
-    <div className="flex flex-col justify-center items-center gap-10 py-10 min-h-screen">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-10 py-10">
       <PageHead title={title} />
-      <section className="p-6 max-w-screen-3xl 3xl:container">
+      <section className="max-w-screen-2xl p-6 2xl:container">
         {children}
       </section>
     </div>
