@@ -16,10 +16,7 @@ import {
   NavbarMenuToggle,
 } from "@nextui-org/react";
 import Image from "next/image";
-import {
-  NAVBAR_ITEMS,
-  NAVBAR_BUTTONS,
-} from "./LandingPageLayoutNavbar.constants";
+import { NAVBAR_ITEMS, NAVBAR_BUTTONS } from "../LandingPageLayout.constants";
 import Link from "next/link";
 import { cn } from "@/src/utils/cn";
 import { Router, useRouter } from "next/router";
