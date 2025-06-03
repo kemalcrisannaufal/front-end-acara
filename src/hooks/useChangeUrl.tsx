@@ -5,7 +5,7 @@ import {
   LIMIT_DEFAULT,
   PAGE_DEFAULT,
 } from "../constants/list.constants";
-import { ChangeEvent } from "react";
+import { ChangeEvent, Key } from "react";
 
 const useChangeUrl = () => {
   const router = useRouter();
@@ -14,6 +14,9 @@ const useChangeUrl = () => {
   const currentLimit = router.query.limit;
   const currentPage = router.query.page;
   const currentSearch = router.query.search;
+  const currentCategory = router.query.category;
+  const currentIsOnline = router.query.isOnline;
+  const currentIsFeatured = router.query.isFeatured;
 
   const setURL = () => {
     router.replace({
@@ -21,6 +24,19 @@ const useChangeUrl = () => {
         limit: currentLimit || LIMIT_DEFAULT,
         page: currentPage || PAGE_DEFAULT,
         search: currentSearch || "",
+      },
+    });
+  };
+
+  const setURLExplore = () => {
+    router.replace({
+      query: {
+        limit: currentLimit || LIMIT_DEFAULT,
+        page: currentPage || PAGE_DEFAULT,
+        search: currentSearch || "",
+        category: currentCategory || "",
+        isOnline: currentIsOnline || "",
+        isFeatured: currentIsFeatured || "",
       },
     });
   };
@@ -41,6 +57,43 @@ const useChangeUrl = () => {
         ...router.query,
         limit: selectedLimit,
         page: PAGE_DEFAULT,
+      },
+    });
+  };
+  const handleChangeCategory = (category: Key | null) => {
+    router.push({
+      query: {
+        ...router.query,
+        limit: LIMIT_DEFAULT,
+        page: PAGE_DEFAULT,
+        category,
+      },
+    });
+  };
+
+  const handleChangeIsOnline = (e: ChangeEvent<HTMLSelectElement>) => {
+    const isOnline = e.target.value;
+    router.push({
+      query: {
+        ...router.query,
+        limit: LIMIT_DEFAULT,
+        page: PAGE_DEFAULT,
+        category: currentCategory || "",
+        isOnline,
+      },
+    });
+  };
+
+  const handleChangeIsFeatured = (e: ChangeEvent<HTMLSelectElement>) => {
+    const isFeatured = e.target.value;
+    router.push({
+      query: {
+        ...router.query,
+        limit: LIMIT_DEFAULT,
+        page: PAGE_DEFAULT,
+        category: currentCategory || "",
+        isOnline: currentIsOnline || "",
+        isFeatured,
       },
     });
   };
@@ -73,11 +126,19 @@ const useChangeUrl = () => {
     currentPage,
     currentLimit,
     currentSearch,
+    currentCategory,
 
     handleChangePage,
     handleChangeLimit,
     handleSearch,
     handleClearSearch,
+
+    handleChangeCategory,
+    handleChangeIsOnline,
+    currentIsOnline,
+    currentIsFeatured,
+    handleChangeIsFeatured,
+    setURLExplore,
   };
 };
 

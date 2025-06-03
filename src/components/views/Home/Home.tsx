@@ -1,3 +1,4 @@
+import { LIMIT_DEFAULT, PAGE_DEFAULT } from "@/src/constants/list.constants";
 import HomeCategoryList from "./HomeCategoryList";
 import HomeEventList from "./HomeEventList";
 import HomeSlider from "./HomeSlider";
@@ -20,6 +21,7 @@ const Home = () => {
       <HomeSlider banners={dataBanners} isLoadingBanners={isLoadingBanners} />
       <HomeEventList
         title="Featured Event"
+        href={`/event?event?limit=${LIMIT_DEFAULT}&isFeatured=true`}
         events={dataFeaturedEvents}
         isLoading={isLoadingFeaturedEvents}
       />

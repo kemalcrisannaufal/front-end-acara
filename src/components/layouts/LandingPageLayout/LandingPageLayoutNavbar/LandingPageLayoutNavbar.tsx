@@ -7,6 +7,8 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Listbox,
+  ListboxItem,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -24,11 +26,23 @@ import { CiSearch } from "react-icons/ci";
 import { signOut, useSession } from "next-auth/react";
 import useLandingPageLayoutNavbar from "./useLandingPageLayoutNavbar";
 import { Fragment } from "react";
+import { IEvent } from "@/src/types/Event";
 
 const LandingPageLayoutNavbar = () => {
   const router = useRouter();
   const session = useSession();
-  const { dataProfile } = useLandingPageLayoutNavbar();
+  const {
+    dataProfile,
+    handleSearch,
+    dataSearchEvent,
+    search,
+    setSearch,
+    refetchEvents,
+    isLoadingEvent,
+    isRefetchingEvent,
+  } = useLandingPageLayoutNavbar();
+
+  console.log();
 
   return (
     <Navbar maxWidth="full" isBordered isBlurred={false} shouldHideOnScroll>
@@ -60,12 +74,45 @@ const LandingPageLayoutNavbar = () => {
 
       <NavbarContent justify="end">
         <NavbarMenuToggle className="lg:hidden" />
-        <NavbarItem className="hidden lg:flex">
+        <NavbarItem className="hidden lg:relative lg:flex">
           <Input
+            isClearable
             placeholder="Search Event"
             startContent={<CiSearch />}
-            onChange={() => {}}
+            onClear={() => setSearch("")}
+            onChange={(e) => handleSearch(e)}
           />
+          {search !== "" && (
+            <Listbox
+              items={dataSearchEvent}
+              className="absolute right-0 top-12 rounded-xl border bg-white"
+            >
+              {(item: IEvent) => {
+                if (!isLoadingEvent && !isRefetchingEvent) {
+                  return (
+                    <ListboxItem
+                      key={item._id}
+                      onPress={() => router.push(`/event/${item.slug}`)}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Image
+                          src={`${item.banner}`}
+                          alt={`${item.name}`}
+                          className="w-2/5 rounded-md"
+                          width={100}
+                          height={40}
+                        />
+                        <p className="line-clamp-2 w-3/5 text-wrap">
+                          {item.name}
+                        </p>
+                      </div>
+                    </ListboxItem>
+                  );
+                }
+                return null;
+              }}
+            </Listbox>
+          )}
         </NavbarItem>
         {session.status === "authenticated" ? (
           <NavbarItem className="hidden lg:block">
@@ -120,14 +167,12 @@ const LandingPageLayoutNavbar = () => {
       <NavbarMenu className="gap-4">
         {NAVBAR_ITEMS.map((item, index) => (
           <NavbarMenuItem
-            as={Link}
             key={`${item.label}-${index}`}
-            href={item.href}
             className={cn("text-lg font-medium text-default-700", {
               "font-bold text-danger-500": router.pathname === item.href,
             })}
           >
-            {item.label}
+            <Link href={item.href}>{item.label}</Link>
           </NavbarMenuItem>
         ))}
         {session.status === "authenticated" ? (

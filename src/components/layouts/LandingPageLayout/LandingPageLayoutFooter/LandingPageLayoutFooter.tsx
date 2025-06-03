@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SOCIAL_ITEMS } from "../LandingPageLayout.constants";
+import { NAVBAR_ITEMS, SOCIAL_ITEMS } from "../LandingPageLayout.constants";
 
 const LandingPageLayoutFooter = () => {
   return (
@@ -31,12 +31,15 @@ const LandingPageLayoutFooter = () => {
 
       <div className="mb-4 flex flex-col gap-2 lg:mb-0">
         <h4 className="text-lg text-white">Menu</h4>
-        <Link href="/" className="text-sm text-default-500">
-          Home
-        </Link>
-        <Link href="/" className="text-sm text-default-500">
-          Explore
-        </Link>
+        {NAVBAR_ITEMS.map((item) => (
+          <Link
+            key={`${item.label}-${item.href}`}
+            href={item.href}
+            className="text-sm text-default-500"
+          >
+            {item.label}
+          </Link>
+        ))}
       </div>
       <div className="flex flex-col items-center gap-6">
         <div className="flex gap-4">

@@ -7,13 +7,12 @@ import { Fragment } from "react";
 interface Proptypes {
   event: IEvent;
   isLoading?: boolean;
-  key?: string;
 }
 
 const CardEvent = (props: Proptypes) => {
-  const { event, isLoading, key } = props;
+  const { event, isLoading } = props;
   return (
-    <Card shadow="sm" key={key}>
+    <Card shadow="sm">
       {!isLoading ? (
         <CardBody>
           <Image
