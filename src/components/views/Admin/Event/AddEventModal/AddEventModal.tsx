@@ -211,6 +211,23 @@ const AddEventModal = (props: Proptypes) => {
 
                   <Controller
                     control={control}
+                    name="description"
+                    render={({ field }) => (
+                      <Textarea
+                        {...field}
+                        label="Description"
+                        variant="bordered"
+                        isInvalid={errors.description !== undefined}
+                        errorMessage={errors.description?.message}
+                      />
+                    )}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <p className="text-md font-bold">Location</p>
+                  <Controller
+                    control={control}
                     name="isOnline"
                     render={({ field }) => (
                       <Select
@@ -230,24 +247,6 @@ const AddEventModal = (props: Proptypes) => {
                       </Select>
                     )}
                   />
-
-                  <Controller
-                    control={control}
-                    name="description"
-                    render={({ field }) => (
-                      <Textarea
-                        {...field}
-                        label="Description"
-                        variant="bordered"
-                        isInvalid={errors.description !== undefined}
-                        errorMessage={errors.description?.message}
-                      />
-                    )}
-                  />
-                </div>
-
-                <div className="flex flex-col gap-4">
-                  <p className="text-md font-bold">Location</p>
                   <Controller
                     control={control}
                     name="region"
@@ -352,7 +351,7 @@ const AddEventModal = (props: Proptypes) => {
                 type="submit"
                 disabled={disabledSubmit}
               >
-                {isPendingMutateAddEvent ? (
+                {disabledSubmit ? (
                   <Spinner size="sm" color="white" />
                 ) : (
                   "Create Event"

@@ -8,11 +8,11 @@ interface Proptypes {
   isLoading: boolean;
 }
 
-const HomeList = (props: Proptypes) => {
+const HomeEventList = (props: Proptypes) => {
   const { title, events, isLoading } = props;
   return (
     <section className="mx-6 mb-16 lg:mx-0">
-      <div className="flex items-center justify-between px-6 lg:px-0">
+      <div className="flex items-center justify-between px-0">
         <h2 className="text-2xl font-bold text-danger">{title}</h2>
         <Link href="/events" className="font-semibold">
           See more
@@ -39,4 +39,4 @@ const HomeList = (props: Proptypes) => {
   );
 };
 
-export default HomeList;
+export default HomeEventList;

@@ -19,7 +19,7 @@ import Image from "next/image";
 import { NAVBAR_ITEMS, NAVBAR_BUTTONS } from "../LandingPageLayout.constants";
 import Link from "next/link";
 import { cn } from "@/src/utils/cn";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { CiSearch } from "react-icons/ci";
 import { signOut, useSession } from "next-auth/react";
 import useLandingPageLayoutNavbar from "./useLandingPageLayoutNavbar";
@@ -73,7 +73,7 @@ const LandingPageLayoutNavbar = () => {
               <DropdownTrigger>
                 <Avatar
                   src={dataProfile?.profilePicture}
-                  className="cursor-pointernpm"
+                  className="cursor-pointer"
                   showFallback
                 />
               </DropdownTrigger>

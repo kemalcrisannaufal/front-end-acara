@@ -43,6 +43,7 @@ const CardEvent = (props: Proptypes) => {
             <Skeleton className="mt-2 h-6 w-full" />
             <Skeleton className="mt-2 h-4 w-full" />
             <Skeleton className="mt-2 h-4 w-3/4" />
+            <Skeleton className="mt-2 h-3 w-1/2" />
           </CardFooter>
         </Fragment>
       )}

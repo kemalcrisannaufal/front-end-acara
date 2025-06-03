@@ -1,4 +1,5 @@
-import HomeList from "./HomeList";
+import HomeCategoryList from "./HomeCategoryList";
+import HomeEventList from "./HomeEventList";
 import HomeSlider from "./HomeSlider";
 import useHome from "./useHome";
 
@@ -10,21 +11,28 @@ const Home = () => {
     isLoadingFeaturedEvents,
     dataLatestEvents,
     isLoadingLatestEvents,
+    dataCategory,
+    isLoadingCategories,
   } = useHome();
 
   return (
     <div>
       <HomeSlider banners={dataBanners} isLoadingBanners={isLoadingBanners} />
-      <HomeList
+      <HomeEventList
         title="Featured Event"
         events={dataFeaturedEvents}
         isLoading={isLoadingFeaturedEvents}
       />
       <HomeSlider banners={dataBanners} isLoadingBanners={isLoadingBanners} />
-      <HomeList
+      <HomeEventList
         title="Latest Event"
         events={dataLatestEvents}
         isLoading={isLoadingLatestEvents}
+      />
+      <HomeCategoryList
+        title="Event By Category"
+        categories={dataCategory}
+        isLoading={isLoadingCategories}
       />
     </div>
   );
