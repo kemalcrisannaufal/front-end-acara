@@ -1,12 +1,15 @@
 import eventServices from "@/src/services/event.service";
 import { IEvent } from "@/src/types/Event";
 import { ICart, ITicket } from "@/src/types/Ticket";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { DEFAULT_CART } from "./EventDetail.constants";
+import orderServices from "@/src/services/order.service";
+import { ToasterContext } from "@/src/contexts/ToasterContext";
 
 const useEventDetail = () => {
+  const { setToaster } = useContext(ToasterContext);
   const { isReady, query } = useRouter();
 
   const getEventDetail = async (): Promise<IEvent> => {
@@ -66,6 +69,24 @@ const useEventDetail = () => {
     }
   };
 
+  const createOrder = async () => {
+    const { data } = await orderServices.createOrder(cart);
+    return data.data;
+  };
+
+  const { mutate: mutateCreateOrder, isPending: isPendingCreateOrder } =
+    useMutation({
+      mutationKey: ["createOrder"],
+      mutationFn: createOrder,
+      onError: (error) => {
+        setToaster({ type: "error", message: error.message });
+      },
+      onSuccess: (result) => {
+        const transactionToken = result.payment.token;
+        (window as any).snap.pay(transactionToken);
+      },
+    });
+
   return {
     dataEvent,
     isPendingEvent,
@@ -76,6 +97,8 @@ const useEventDetail = () => {
     dataTicketInCart,
     handleAddToCart,
     handleChangeQuantity,
+    mutateCreateOrder,
+    isPendingCreateOrder,
   };
 };
 

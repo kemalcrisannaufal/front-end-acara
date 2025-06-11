@@ -62,9 +62,16 @@ const LandingPageLayoutNavbar = () => {
               key={`${item.label}-${index}`}
               as={Link}
               href={item.href}
-              className={cn("font-medium text-default-700", {
-                "font-bold text-danger-500": router.pathname === item.href,
-              })}
+              className={cn(
+                "font-medium text-default-700",
+                {
+                  "font-bold text-danger-500": router.pathname === item.href,
+                },
+                {
+                  "font-bold text-danger-500":
+                    item.href !== "/" && router.pathname.includes(item.href),
+                },
+              )}
             >
               {item.label}
             </NavbarItem>

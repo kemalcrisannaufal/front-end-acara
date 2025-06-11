@@ -18,6 +18,8 @@ import {
 import { ITicket } from "@/src/types/Ticket";
 import EventDetailTicket from "./EventDetailTicket/EventDetailTicket";
 import EventDetailCart from "./EventDetailCart";
+import Script from "next/script";
+import { environment } from "@/src/config/environment";
 
 const EventDetail = () => {
   const {
@@ -27,10 +29,17 @@ const EventDetail = () => {
     handleAddToCart,
     dataTicketInCart,
     handleChangeQuantity,
+    mutateCreateOrder,
+    isPendingCreateOrder,
   } = useEventDetail();
 
   return (
     <div className="mx-6 lg:mx-0">
+      <Script
+        src={environment.MIDTRANS_SNAP_URL}
+        data-client-key={environment.MIDTRANS_CLIENT_KEY}
+        strategy="lazyOnload"
+      />
       <Breadcrumbs>
         <BreadcrumbItem href="/">Home</BreadcrumbItem>
         <BreadcrumbItem href="/event">Event</BreadcrumbItem>
@@ -87,12 +96,14 @@ const EventDetail = () => {
 
           <Tabs fullWidth className="mt-5">
             <Tab key={"description"} title={"Description"}>
-              <Card className="p-3">
-                <CardHeader>
-                  <h2 className="font-semibold">Description</h2>
-                </CardHeader>
-                <CardBody>{dataEvent?.description}</CardBody>
-              </Card>
+              <Skeleton isLoaded={!!dataEvent} className="w-full rounded-xl">
+                <Card className="p-3">
+                  <CardHeader>
+                    <h2 className="font-semibold">Description</h2>
+                  </CardHeader>
+                  <CardBody>{dataEvent?.description}</CardBody>
+                </Card>
+              </Skeleton>
             </Tab>
             <Tab key={"Ticket"} title={"Ticket"}>
               <div className="flex flex-col gap-4">
@@ -114,6 +125,8 @@ const EventDetail = () => {
             cart={cart}
             dataTicketInCart={dataTicketInCart}
             onChangeQuantity={handleChangeQuantity}
+            onCreateOrder={mutateCreateOrder}
+            isLoading={isPendingCreateOrder}
           />
         </div>
       </section>

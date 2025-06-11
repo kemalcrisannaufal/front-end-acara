@@ -3,6 +3,7 @@ import HomeCategoryList from "./HomeCategoryList";
 import HomeEventList from "./HomeEventList";
 import HomeSlider from "./HomeSlider";
 import useHome from "./useHome";
+import HomeAnnouncement from "./HomeAnnouncement";
 
 const Home = () => {
   const {
@@ -18,7 +19,7 @@ const Home = () => {
 
   return (
     <div>
-      <HomeSlider banners={dataBanners} isLoadingBanners={isLoadingBanners} />
+      <HomeAnnouncement />
       <HomeEventList
         title="Featured Event"
         href={`/event?event?limit=${LIMIT_DEFAULT}&isFeatured=true`}
