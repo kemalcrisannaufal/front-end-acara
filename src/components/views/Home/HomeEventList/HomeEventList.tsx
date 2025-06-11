@@ -25,7 +25,7 @@ const HomeEventList = (props: Proptypes) => {
           See more
         </Link>
       </div>
-      <div className="grid auto-cols-[20rem] grid-flow-col gap-6 overflow-x-auto py-2 lg:grid-cols-4 lg:px-1">
+      <div className="grid auto-cols-[20rem] grid-flow-col gap-6 overflow-x-auto px-1 py-2 lg:grid-cols-4">
         {!isLoading
           ? events.map((event: IEvent) => (
               <CardEvent

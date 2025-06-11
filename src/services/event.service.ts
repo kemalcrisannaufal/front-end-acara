@@ -1,4 +1,4 @@
-import { ITicket } from "@/src/types/Event";
+import { ITicket } from "@/src/types/Ticket";
 import instance from "../libs/axios/instance";
 import { IEvent } from "../types/Event";
 import endpoint from "./endpoint.constant";

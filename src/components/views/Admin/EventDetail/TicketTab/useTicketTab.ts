@@ -1,6 +1,6 @@
 import useChangeUrl from "@/src/hooks/useChangeUrl";
 import eventServices from "@/src/services/event.service";
-import { ITicket } from "@/src/types/Event";
+import { ITicket } from "@/src/types/Ticket";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";

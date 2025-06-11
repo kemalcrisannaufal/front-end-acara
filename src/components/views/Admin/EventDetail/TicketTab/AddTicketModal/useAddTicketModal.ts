@@ -1,6 +1,6 @@
 import { ToasterContext } from "@/src/contexts/ToasterContext";
 import eventServices from "@/src/services/event.service";
-import { ITicket, ITicketForm } from "@/src/types/Event";
+import { ITicket, ITicketForm } from "@/src/types/Ticket";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";

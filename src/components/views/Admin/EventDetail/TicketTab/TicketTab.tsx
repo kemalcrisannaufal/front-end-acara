@@ -12,10 +12,10 @@ import { COLUMNS_LIST_TICKET } from "./Ticket.constants";
 import useChangeUrl from "@/src/hooks/useChangeUrl";
 import { DropdownActions } from "@/src/components/common/DropdownActions";
 import useTicketTab from "./useTicketTab";
-import { ITicket } from "@/src/types/Event";
 import AddTicketModal from "./AddTicketModal";
 import DeleteTicketModal from "./DeleteTicketModal";
 import UpdateTicketModal from "./UpdateTicketModal";
+import { ITicket } from "@/src/types/Ticket";
 
 interface Proptypes {
   dataTicket: ITicket[];

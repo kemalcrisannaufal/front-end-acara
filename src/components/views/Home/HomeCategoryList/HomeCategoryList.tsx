@@ -20,7 +20,7 @@ const HomeCategoryList = (props: Proptypes) => {
       <CardBody>
         <div className="grid auto-cols-[10rem] grid-flow-col gap-4 overflow-x-auto p-1 lg:grid-cols-8 lg:gap-6">
           {!isLoading
-            ? categories.map((category: ICategory) => (
+            ? categories?.map((category: ICategory) => (
                 <Link
                   key={`${category._id}`}
                   href={`/event?category=${category._id}`}

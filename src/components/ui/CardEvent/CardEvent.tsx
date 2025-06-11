@@ -2,6 +2,7 @@ import { IEvent } from "@/src/types/Event";
 import { convertTime } from "@/src/utils/date";
 import { Card, CardBody, CardFooter, Skeleton } from "@nextui-org/react";
 import Image from "next/image";
+import Link from "next/link";
 import { Fragment } from "react";
 
 interface Proptypes {
@@ -12,7 +13,7 @@ interface Proptypes {
 const CardEvent = (props: Proptypes) => {
   const { event, isLoading } = props;
   return (
-    <Card shadow="sm">
+    <Card as={Link} href={`/event/${event?.slug}`} shadow="sm">
       {!isLoading ? (
         <CardBody>
           <Image

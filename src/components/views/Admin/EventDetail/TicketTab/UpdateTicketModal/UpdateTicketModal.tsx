@@ -12,7 +12,7 @@ import {
 import { Controller } from "react-hook-form";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import useUpdateTicketModal from "./useUpdateTicketModal";
-import { ITicket } from "@/src/types/Event";
+import { ITicket } from "@/src/types/Ticket";
 
 interface Proptypes {
   isOpen: boolean;
@@ -74,7 +74,7 @@ const UpdateTicketModal = (props: Proptypes) => {
             <ModalHeader>Update Ticket</ModalHeader>
             <ModalBody>
               <div className="flex flex-col gap-4">
-                <p className="font-bold text-md">Information</p>
+                <p className="text-md font-bold">Information</p>
                 <Controller
                   control={controlUpdateTicket}
                   name="name"
@@ -134,7 +134,7 @@ const UpdateTicketModal = (props: Proptypes) => {
                 />
               </div>
             </ModalBody>
-            <ModalFooter className="flex flex-row justify-end items-center">
+            <ModalFooter className="flex flex-row items-center justify-end">
               <Button
                 color="danger"
                 variant="flat"
