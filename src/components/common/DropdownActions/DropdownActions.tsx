@@ -8,14 +8,16 @@ import {
 import { CiMenuKebab } from "react-icons/ci";
 
 interface Proptypes {
+  hideButtonDelete?: boolean;
   onPressButtonDetail: () => void;
-  onPressButtonDelete: () => void;
+  onPressButtonDelete?: () => void;
   textButtonDetail?: string;
   textButtonDelete?: string;
 }
 
 const DropdownActions = (props: Proptypes) => {
   const {
+    hideButtonDelete = false,
     onPressButtonDetail,
     onPressButtonDelete,
     textButtonDetail,
@@ -32,13 +34,16 @@ const DropdownActions = (props: Proptypes) => {
         <DropdownItem key={`detail-event-btn`} onPress={onPressButtonDetail}>
           {textButtonDetail ? textButtonDetail : "Detail"}
         </DropdownItem>
-        <DropdownItem
-          key={`delete-event-btn`}
-          className="text-danger-500"
-          onPress={onPressButtonDelete}
-        >
-          {textButtonDelete ? textButtonDelete : "Delete"}
-        </DropdownItem>
+
+        {!hideButtonDelete ? (
+          <DropdownItem
+            key={`delete-event-btn`}
+            className="text-danger-500"
+            onPress={onPressButtonDelete}
+          >
+            {textButtonDelete ? textButtonDelete : "Delete"}
+          </DropdownItem>
+        ) : null}
       </DropdownMenu>
     </Dropdown>
   );

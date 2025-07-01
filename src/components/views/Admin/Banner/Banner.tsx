@@ -10,7 +10,7 @@ import { COLUMNS_LIST_BANNER } from "./Banner.constants";
 import AddBannerModal from "./AddBannerModal";
 import DeleteBannerModal from "./DeleteBannerModal";
 
-const Category = () => {
+const Banner = () => {
   const { push, isReady, query } = useRouter();
   const {
     dataBanner,
@@ -97,15 +97,8 @@ const Category = () => {
         refetchBanners={refetchBanner}
         selectedId={selectedId}
       />
-
-      {/* <AddCategoryModal {...addCategory} refetchCategory={refetchCategory} />
-      <DeleteCategoryModal
-        {...deleteCategory}
-        selectedId={selectedId}
-        refetchCategory={refetchCategory}
-      /> */}
     </section>
   );
 };
 
-export default Category;
+export default Banner;
