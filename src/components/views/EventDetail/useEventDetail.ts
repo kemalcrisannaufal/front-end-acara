@@ -87,6 +87,8 @@ const useEventDetail = () => {
       },
     });
 
+    
+
   return {
     dataEvent,
     isPendingEvent,
