@@ -9,12 +9,6 @@ import {
 
 const SIDEBAR_ADMIN = [
   {
-    key: "dashboard",
-    label: "Dashboard",
-    href: "/admin/dashboard",
-    icon: <CiGrid41 />,
-  },
-  {
     key: "event",
     label: "Event",
     href: "/admin/event",
@@ -42,23 +36,17 @@ const SIDEBAR_ADMIN = [
 
 const SIDEBAR_MEMBER = [
   {
-    key: "dashboard",
-    label: "Dashboard",
-    href: "/member/dashboard",
-    icon: <CiGrid41 />,
-  },
-  {
     key: "transaction",
     label: "Transaction",
     href: "/member/transaction",
     icon: <CiWallet />,
   },
-  {
-    key: "settings",
-    label: "Settings",
-    href: "/member/settings",
-    icon: <CiSettings />,
-  },
+  // {
+  //   key: "settings",
+  //   label: "Settings",
+  //   href: "/member/settings",
+  //   icon: <CiSettings />,
+  // },
 ];
 
 export { SIDEBAR_ADMIN, SIDEBAR_MEMBER };

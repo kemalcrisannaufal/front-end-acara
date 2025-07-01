@@ -4,6 +4,7 @@ import { IEvent } from "../types/Event";
 import endpoint from "./endpoint.constant";
 
 const eventServices = {
+  getEventById: (id: string) => instance.get(`${endpoint.EVENT}/${id}`),
   getEventBySlug: (slug: string) =>
     instance.get(`${endpoint.EVENT}/${slug}/slug`),
   getEvents: (params: string) => instance.get(`${endpoint.EVENT}?${params}`),
@@ -20,6 +21,7 @@ const eventServices = {
   createTicket: (payload: ITicket) =>
     instance.post(`${endpoint.TICKET}`, payload),
   getTickets: (params: string) => instance.get(`${endpoint.TICKET}?${params}`),
+  getTicketsById: (id: string) => instance.get(`${endpoint.TICKET}/${id}`),
   getTicketsByEventId: (eventId: string) =>
     instance.get(`${endpoint.TICKET}/${eventId}/event`),
   updateTicket: (id: string, payload: ITicket) =>

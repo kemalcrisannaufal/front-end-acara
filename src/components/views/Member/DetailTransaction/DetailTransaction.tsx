@@ -1,0 +1,161 @@
+import {
+  Button,
+  Card,
+  CardBody,
+  Chip,
+  Link,
+  Skeleton,
+} from "@nextui-org/react";
+import useDetailTransaction from "./useDetailTransaction";
+import { convertToIDR } from "@/src/utils/currency";
+import { QRCodeSVG } from "qrcode.react";
+import { convertTime } from "@/src/utils/date";
+import Script from "next/script";
+import { environment } from "@/src/config/environment";
+
+const DetailTransaction = () => {
+  const { dataTransaction, dataEvent, dataTicket } = useDetailTransaction();
+
+  return (
+    <>
+      <Script
+        src={environment.MIDTRANS_SNAP_URL}
+        data-client-key={environment.MIDTRANS_CLIENT_KEY}
+        strategy="lazyOnload"
+      />
+      {dataTransaction && dataEvent && dataTicket && (
+        <Card className="px-5 py-4">
+          <CardBody className="gap-8">
+            <div className="flex flex-col gap-2">
+              <h4 className="font-bold">Order:</h4>
+              <div className="grid grid-cols-2 gap-4 gap-y-8 lg:grid-cols-4">
+                <div>
+                  <p className="text-sm font-semibold">Order ID:</p>
+                  <Skeleton
+                    isLoaded={!!dataTransaction?.orderId}
+                    className="h-4 rounded-md"
+                  >
+                    <p className="text-sm">{dataTransaction?.orderId}</p>
+                  </Skeleton>
+                </div>
+
+                <div>
+                  <p className="text-sm font-semibold">Ticket:</p>
+                  <Skeleton
+                    isLoaded={!!dataTicket?.name}
+                    className="h-4 rounded-md"
+                  >
+                    <p className="text-sm">{`${dataTicket?.name} (${convertToIDR(dataTicket?.price)}) x ${dataTransaction.quantity}`}</p>
+                  </Skeleton>
+                </div>
+
+                <div>
+                  <p className="text-sm font-semibold">Total:</p>
+                  <Skeleton
+                    isLoaded={!!dataTransaction?.total}
+                    className="h-4 rounded-md"
+                  >
+                    <p className="text-sm">
+                      {convertToIDR(dataTransaction?.total)}
+                    </p>
+                  </Skeleton>
+                </div>
+
+                <div>
+                  <p className="text-sm font-semibold">Ticket:</p>
+                  <Skeleton
+                    isLoaded={!!dataTransaction?.status}
+                    className="h-4 rounded-md"
+                  >
+                    <Chip
+                      className="capitalize text-white"
+                      color={
+                        dataTransaction?.status === "completed"
+                          ? "success"
+                          : "warning"
+                      }
+                      size="sm"
+                    >
+                      {dataTransaction?.status}
+                    </Chip>
+                  </Skeleton>
+                </div>
+              </div>
+            </div>
+
+            {dataTransaction?.status === "completed" && (
+              <div className="flex flex-col gap-2">
+                <h4 className="font-bold">Ticket:</h4>
+                <div className="mt-2 flex flex-col gap-4">
+                  {dataTransaction.vouchers.map(
+                    (voucher: { voucherId: string }) => (
+                      <Card
+                        shadow="sm"
+                        className="p-4 pt-6 lg:p-2"
+                        key={`voucher-${voucher.voucherId}`}
+                      >
+                        <CardBody>
+                          <div className="gap-8 lg:flex">
+                            <div className="mx-auto w-2/3 lg:m-0 lg:w-1/5">
+                              <QRCodeSVG
+                                value={voucher.voucherId}
+                                className="!h-full !w-full"
+                              />
+                            </div>
+
+                            <div className="mt-5 flex flex-col gap-4 lg:mt-0">
+                              <h2 className="text-2xl font-bold text-danger-500">
+                                {dataEvent?.name}
+                              </h2>
+                              <div className="font-bold text-foreground-500">
+                                <p>Date</p>
+                                <p className="text-danger-500">{`${convertTime(dataEvent?.startDate)} -${convertTime(dataEvent?.endDate)} `}</p>
+                              </div>
+
+                              <div className="font-bold text-foreground-500">
+                                <p>Location</p>
+                                <p className="text-danger-500">
+                                  {dataEvent?.isOnline ? "Online" : "Offline"}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </CardBody>
+                      </Card>
+                    ),
+                  )}
+                </div>
+
+                {dataEvent?.isOnline && (
+                  <Button
+                    as={Link}
+                    href={`${dataEvent?.Location?.address}`}
+                    color="danger"
+                    size="sm"
+                    className="w-max"
+                  >
+                    Join Now
+                  </Button>
+                )}
+              </div>
+            )}
+
+            {dataTransaction?.status === "pending" && (
+              <Button
+                color="danger"
+                className="w-fit"
+                onPress={() =>
+                  (window as any).snap.pay(dataTransaction?.payment.token)
+                }
+              >
+                Pay Now
+              </Button>
+            )}
+          </CardBody>
+        </Card>
+      )}
+    </>
+  );
+};
+
+export default DetailTransaction;

@@ -1,16 +1,13 @@
-import { FaChevronLeft, FaClock, FaLocationDot } from "react-icons/fa6";
+import { FaClock, FaLocationDot } from "react-icons/fa6";
 import useEventDetail from "./useEventDetail";
 import { convertTime } from "@/src/utils/date";
 import Image from "next/image";
 import {
   BreadcrumbItem,
   Breadcrumbs,
-  Button,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
-  Chip,
   Skeleton,
   Tab,
   Tabs,
